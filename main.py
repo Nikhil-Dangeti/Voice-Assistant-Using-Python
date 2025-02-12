@@ -9,8 +9,6 @@ import wikipedia
 import pywhatkit as pwk
 import user_config
 import smtplib,ssl
-import openai_request as ai
-import image_generation
 import mtranslate
 import weather_module
 import os
@@ -93,7 +91,7 @@ def main_process():
                         speak("No tasks found in your to-do list.")
             except FileNotFoundError:
                 speak("Task list is empty. You haven't added any tasks yet.")
-
+                
         elif "my work" in request:
             try:
                 with open("D:/python_codeclause/AIBased_VoiceAssisstance/todo.txt", "r") as file:
@@ -115,8 +113,6 @@ def main_process():
             pyautogui.typewrite(query)
             pyautogui.sleep(2)
             pyautogui.press("enter")
-
-
 
         elif "close" in request:
             query = request.replace("close", "").strip()
@@ -141,7 +137,6 @@ def main_process():
             else:
                 speak("Application not recognized. Please try again.")
 
-
         elif "wikipedia" in request:
             #request=request.replace("judo","")
             request=request.replace("search wikipedia ","")
@@ -161,9 +156,6 @@ def main_process():
         elif "send whatsapp" in request:
             pwk.sendwhatmsg("+910123456789","hi",13,30,30)
 
-        #elif "send email" in request:
-         #   pwk.send_mail("nani123@gmail.com",user_config.gmail_password,"Hello","How are you","nani72@gmail.com")
-          #  speak("Email Sent")
             
         elif "send email" in request:
             s=smtplib.SMTP('smtp.gmail.com',587)
@@ -174,15 +166,10 @@ def main_process():
             s.quit()
             speak("Email Sent")
 
-
-
         elif "weather" in request:
             speak("Which city's weather do you want?")
             city = command().lower()
             weather_module.speak_weather(city)
-
-    
-
 
         elif "play" in request and "video on youtube" in request:
             video_name = request.replace("play", "").replace("video on youtube", "").strip()
@@ -204,44 +191,6 @@ def main_process():
             pyautogui.hotkey("ctrl", "w")  # Closes the current browser tab
             print("Closed the YouTube tab.")
 
-"""
-        elif "weather" in request:
-            speak("Which city's weather do you want to know?")
-            with sr.Microphone() as source:
-                r = sr.Recognizer()
-                r.adjust_for_ambient_noise(source, duration=1.2)
-                print("Listening for city name...")
-                audio = r.listen(source)
-                city = r.recognize_google(audio)
-            weather_info = weather.get_weather(city)
-            print(weather_info)
-            speak(weather_info)
-"""
-"""
-        elif "ask ai" in request:
-            jarvis_chat=[]
-            request=request.replace("ask ai","")            
-            response=ai.send_request(request)
-            print(response)
-            speak(response)
-        
-        elif "clear chat" in request:
-            jarvis_chat=[]
-            speak("Chat Cleared")
-
-        elif "image" in request:
-            request=request.replace("ask ai","")
-            image_generation.generate_image(request)
-        else:
-            
-            request=request.replace("jarvis","")            
-            jarvis_chat.append({"role": "user","content": request})
-            #print(jarvis_chat)
-            response=ai.send_request(request)
-            jarvis_chat.append({"role": "assistant","content":response})
-            #print(jarvis_chat)            
-            speak(response)
-"""
 
 if __name__ == "__main__":
     main_process()
